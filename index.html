@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Javascript Challenge</title>
+</head>
+<body>
+    <script src="http://stemwijzer.dvc-icta.nl/data.js"></script>
+    
+    <main>
+        <button id="startButton">Start</button>
+        <article id="question" style="display:none">
+            <h1 id="title"></h1>
+            <p id="description"></p>
+            <button id="agree">Mee eens</button>
+            <button id="neither">Geen van beide</button>
+            <button id="disagree">Oneens</button><br><br>
+            <button id="partiesButton">Wat vinden de partijen</button>
+            <div id="partiesElement" style="display:none"></p>
+        </article>
+    </main>
+    <script>
+        var partiesCreated = false;
+        var questionCounter = 0;
+        
+        if(document.getElementById("startButton").onclick = function()
+        {
+            document.getElementById("question").style.display = "block";
+            document.getElementById("startButton").style.display = "none";
+            GetQuestion();
+        })
+        if(document.getElementById("partiesButton").onclick = function()
+        {
+            if(document.getElementById("partiesElement").style.display == "none" && partiesCreated == false)
+            {
+                var parties = subjects[0].parties;
+                var counter = 0;
+                for(i in parties)
+                {
+                    counter++;
+                    var party = document.createElement('div');
+                    var partyId = (parties[counter - 1].name);
+                    partyId = partyId.replace(/ /g, "");
+                    partyId = partyId.replace("\"\"", "/");
+                    party.innerHTML = "<label id="+partyId + ">" + parties[counter - 1].name + "</label></div>";
+                    document.getElementById("partiesElement").appendChild(party);                    
+                    var partyDescription = document.createElement('p');
+                    partyDescription.innerHTML = "<label id="+partyId + "Description" + ">" + parties[counter - 1].explanation + "</label></div>";
+                    document.getElementById(partyId).appendChild(partyDescription);
+                    partiesCreated = true;
+                }
+                document.getElementById("partiesElement").style.display = "block";
+            }else if(document.getElementById("partiesElement").style.display == "none" && partiesCreated == true)
+            {
+                document.getElementById("partiesElement").style.display = "block";
+            }else if(document.getElementById("partiesElement").style.display == "block")
+            {
+                document.getElementById("partiesElement").style.display = "none";
+            }
+        })
+
+
+        
+
+        function GetQuestion()
+        {
+            document.getElementById("title").innerHTML = subjects[0].title;
+            document.getElementById("description").innerHTML = subjects[0].statement;            
+        }
+    </script>
+</body>
+</html>
