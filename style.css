@@ -1,0 +1,21 @@
+#partiesList
+{
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: lightblue;
+}
+#proParties, #ambivalentParties, #contraParties
+{
+    background-color: white;
+    width: 30%;
+}
+
+#proParties div label label, #ambivalentParties div label label, #contraParties div label label
+{
+    display: none;
+}
+
+#proParties div:hover label label, #ambivalentParties div:hover label label, #contraParties div:hover label label
+{
+    display: block;
+}

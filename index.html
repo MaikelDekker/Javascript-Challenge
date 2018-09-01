@@ -2,10 +2,10 @@
 <html>
 <head>
 <title>Javascript Challenge</title>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 </head>
 <body>
     <script src="http://stemwijzer.dvc-icta.nl/data.js"></script>
-    
     <main>
         <button id="startButton">Start</button>
         <article id="question" style="display:none">
@@ -15,57 +15,104 @@
             <button id="neither">Geen van beide</button>
             <button id="disagree">Oneens</button><br><br>
             <button id="partiesButton">Wat vinden de partijen</button>
-            <div id="partiesElement" style="display:none"></p>
+            <div id="partiesList" style="display:none">
+                <div id="proParties"><h1>Partijen voor:</h1></div>
+                <div id="ambivalentParties"><h1>Partijen tegenstrijdig:</h1></div>
+                <div id="contraParties"><h1>Partijen tegen:</h1></div>
+            </div>
         </article>
+        <h2 id="results" style="display:none"></h2>
     </main>
     <script>
         var partiesCreated = false;
-        var questionCounter = 0;
-        
+        var question = 0;
+        var result = [];
+
         if(document.getElementById("startButton").onclick = function()
         {
             document.getElementById("question").style.display = "block";
             document.getElementById("startButton").style.display = "none";
-            GetQuestion();
+            question = 0;
+            LoadQuestion();
         })
-        if(document.getElementById("partiesButton").onclick = function()
+        if(document.getElementById("partiesButton").onclick = function(){LoadParties()});
+        if(document.getElementById("agree").onclick = function(){NextQuestion("agree")});
+        if(document.getElementById("neither").onclick = function(){NextQuestion("neither")});
+        if(document.getElementById("disagree").onclick = function(){NextQuestion("disagree")});
+
+        function NextQuestion(string)
         {
-            if(document.getElementById("partiesElement").style.display == "none" && partiesCreated == false)
+            partiesCreated = false;
+            if(string == "agree"){
+            result.push(question + "a");
+            }else if(string == "neither"){
+            result.push(question + "b");
+            }else if(string == "disagree"){
+            result.push(question + "c");
+            }
+            question++;
+            if(question < 7)
             {
-                var parties = subjects[0].parties;
+                LoadQuestion();
+                document.getElementById("partiesList").style.display = "none";
+            }else
+            {
+                GetResults();
+            }
+        }
+
+        function LoadQuestion()
+        {
+            document.getElementById("title").innerHTML = subjects[question].title;
+            document.getElementById("description").innerHTML = subjects[question].statement;
+        }
+        function LoadParties()
+        {
+            if(document.getElementById("partiesList").style.display == "none" && partiesCreated == false)
+            {
+                var parties = subjects[question].parties;
                 var counter = 0;
                 for(i in parties)
                 {
                     counter++;
-                    var party = document.createElement('div');
+                    document.getElementById("partiesList").style.display = "flex";
                     var partyId = (parties[counter - 1].name);
                     partyId = partyId.replace(/ /g, "");
-                    partyId = partyId.replace("\"\"", "/");
+                    partyId = partyId.replace("\"\"", "/");                    
+                    var party = document.createElement('div');
                     party.innerHTML = "<label id="+partyId + ">" + parties[counter - 1].name + "</label></div>";
-                    document.getElementById("partiesElement").appendChild(party);                    
-                    var partyDescription = document.createElement('p');
-                    partyDescription.innerHTML = "<label id="+partyId + "Description" + ">" + parties[counter - 1].explanation + "</label></div>";
+                    
+                    if(parties[counter - 1].position == "pro")
+                    {
+                        document.getElementById("proParties").appendChild(party);
+                    }else if(parties[counter - 1].position == "ambivalent")
+                    {
+                        document.getElementById("ambivalentParties").appendChild(party);
+                    }else if(parties[counter - 1].position == "contra")
+                    {
+                        document.getElementById("contraParties").appendChild(party);
+                    }
+                    var partyDescription = document.createElement('label');
+                    partyDescription.id = partyId + "Description";
+                    partyDescription.innerHTML = parties[counter - 1].explanation;
                     document.getElementById(partyId).appendChild(partyDescription);
-                    partiesCreated = true;
                 }
-                document.getElementById("partiesElement").style.display = "block";
-            }else if(document.getElementById("partiesElement").style.display == "none" && partiesCreated == true)
+                partiesCreated = true;
+            }else if(document.getElementById("partiesList").style.display == "none" && partiesCreated == true)
             {
-                document.getElementById("partiesElement").style.display = "block";
-            }else if(document.getElementById("partiesElement").style.display == "block")
+                document.getElementById("partiesList").style.display = "flex";
+            }else if(document.getElementById("partiesList").style.display == "flex")
             {
-                document.getElementById("partiesElement").style.display = "none";
+                document.getElementById("partiesList").style.display = "none";
             }
-        })
-
-
-        
-
-        function GetQuestion()
+        }
+        function GetResults()
         {
-            document.getElementById("title").innerHTML = subjects[0].title;
-            document.getElementById("description").innerHTML = subjects[0].statement;            
+            document.getElementById("question").style.display = "none";
+            document.getElementById("results").style.display = "block";
+            document.getElementById("results").innerHTML = result;
         }
     </script>
 </body>
 </html>
+<link rel="stylesheet" type="text/css" href="style.css">
