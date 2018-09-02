@@ -27,6 +27,9 @@
         var partiesCreated = false;
         var question = 0;
         var result = [];
+        var proParties = document.getElementById("proParties");
+        var ambivalentParties = document.getElementById("ambivalentParties");
+        var contraParties = document.getElementById("contraParties");
 
         if(document.getElementById("startButton").onclick = function()
         {
@@ -53,14 +56,14 @@
             question++;
             if(question < 7)
             {
-                LoadQuestion();
                 document.getElementById("partiesList").style.display = "none";
+                ClearParties();
+                LoadQuestion();
             }else
             {
                 GetResults();
             }
         }
-
         function LoadQuestion()
         {
             document.getElementById("title").innerHTML = subjects[question].title;
@@ -84,13 +87,13 @@
                     
                     if(parties[counter - 1].position == "pro")
                     {
-                        document.getElementById("proParties").appendChild(party);
+                        proParties.appendChild(party);
                     }else if(parties[counter - 1].position == "ambivalent")
                     {
-                        document.getElementById("ambivalentParties").appendChild(party);
+                        ambivalentParties.appendChild(party);
                     }else if(parties[counter - 1].position == "contra")
                     {
-                        document.getElementById("contraParties").appendChild(party);
+                        contraParties.appendChild(party);
                     }
                     var partyDescription = document.createElement('label');
                     partyDescription.id = partyId + "Description";
@@ -106,11 +109,27 @@
                 document.getElementById("partiesList").style.display = "none";
             }
         }
+        function ClearParties()
+        {
+            while(proParties.lastChild)
+            {
+                proParties.removeChild(proParties.lastChild)
+            }
+            while(ambivalentParties.lastChild)
+            {
+                ambivalentParties.removeChild(ambivalentParties.lastChild)
+            }
+            while(contraParties.lastChild)
+            {
+                contraParties.removeChild(contraParties.lastChild)
+            }
+        }
         function GetResults()
         {
             document.getElementById("question").style.display = "none";
-            document.getElementById("results").style.display = "block";
-            document.getElementById("results").innerHTML = result;
+            var results = document.getElementById("results");
+            results.style.display = "block";
+            results.innerHTML = result;
         }
     </script>
 </body>
