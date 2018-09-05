@@ -1,29 +1,45 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<title>Javascript Challenge</title>
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <title>Javascript Challenge</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 </head>
+
 <body>
     <script src="http://stemwijzer.dvc-icta.nl/data.js"></script>
-    <main>
+    <div id="container">
+        <button id="logo"></button>
         <button id="startButton">Start</button>
-        <article id="question" style="display:none">
+        <button id="backButton">🡨</button>
+        <article id="question">
             <h1 id="title"></h1>
             <p id="description"></p>
-            <button id="agree">Mee eens</button>
-            <button id="neither">Geen van beide</button>
-            <button id="disagree">Oneens</button><br><br>
-            <button id="partiesButton">Wat vinden de partijen</button>
-            <div id="partiesList" style="display:none">
-                <div id="proParties"><h1>Partijen voor:</h1></div>
-                <div id="ambivalentParties"><h1>Partijen tegenstrijdig:</h1></div>
-                <div id="contraParties"><h1>Partijen tegen:</h1></div>
+            <div id="buttons">
+                <button id="agree">Mee eens</button>
+                <button id="neither">Geen van beide</button>
+                <button id="disagree">Oneens</button>
+                <button id="skip">Sla deze vraag over 🡒</button>
+            </div>
+            <div id="parties">
+                <button id="partiesButton">Wat vinden de partijen?</button>
+                <div id="partiesList">
+                    <div id="proParties">
+                        <h1 class="positionTitle">Eens</h1>
+                    </div>
+                    <div id="ambivalentParties">
+                        <h1 class="positionTitle">Geen van beide</h1>
+                    </div>
+                    <div id="contraParties">
+                        <h1 class="positionTitle">Oneens</h1>
+                    </div>
+                </div>
             </div>
         </article>
         <h2 id="results"></h2>
-    </main>
+    </div>
     <script src="javascript.js"></script>
 </body>
+
 </html>
 <link rel="stylesheet" type="text/css" href="style.css">
