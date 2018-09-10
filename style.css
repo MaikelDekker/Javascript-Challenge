@@ -44,9 +44,9 @@
 #container
 {
     background-color: white;
-    width: 75%;
+    width: 65%;
     margin: auto;
-    margin-top: 30px;
+    margin-top: 50px;
     padding-top: 15px;
     padding-bottom: 5%;
     margin-bottom: 5%;
@@ -122,17 +122,6 @@ body
     cursor: pointer;
     font-weight: 500;
 }
-#results
-{
-    max-height: 450px;
-    flex-direction: column;
-    flex-wrap: wrap;
-    margin-top: 25px;
-    width: 80%;
-    margin: auto;
-    margin-top: 10px;
-    margin-bottom: 30px;
-}
 #parties
 {
     background-color: #f3f3f3;
@@ -167,11 +156,52 @@ body
     font-weight: bold;
     border-bottom: solid;
 }
-h3
+#results
 {
-    font-size: 15px;
+    display: none;
+    flex-direction: column;
 }
-#results label
+#otherParties h3, #top3 h3
 {
     font-size: 25px;
+    font-weight: bold;
+}
+#otherParties h3{
+    font-size: 20px;
+}
+#top3
+{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: auto;
+    margin-top: 75px;
+    padding-bottom: 150px;
+    width: 55%;
+}
+#top3 label
+{
+    font-size: 20px;
+    text-align: center;
+}
+#otherParties
+{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin: auto;
+    margin-top: 75px;
+    text-align: center;
+}
+#otherParties label
+{
+    margin-top: 15px;
+    font-size: 17px;
+}
+#results h1
+{
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
 }

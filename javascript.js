@@ -4,6 +4,9 @@ var result = [];
 var proParties = document.getElementById("proParties");
 var ambivalentParties = document.getElementById("ambivalentParties");
 var contraParties = document.getElementById("contraParties");
+var results = document.getElementById("results");
+var top3 = document.getElementById("top3");
+var otherParties = document.getElementById("otherParties");
 
 document.getElementById("startButton").onclick = function () { StartQuiz() };
 document.getElementById("partiesButton").onclick = function () { LoadParties() };
@@ -13,27 +16,31 @@ document.getElementById("disagree").onclick = function () { NextQuestion("disagr
 document.getElementById("skip").onclick = function () { NextQuestion("skip") };
 document.getElementById("backButton").onclick = function () { PreviousQuestion() };
 
-function StartQuiz()
-{
+function StartQuiz() {
     document.getElementById("question").style.display = "block";
     document.getElementById("backButton").style.display = "block";
     document.getElementById("startButton").style.display = "none";
     document.getElementById("logo").style.display = "none";
     question = 0;
-    LoadQuestion();
+    NextQuestion();
 }
-function ResetQuiz()
-{
-    document.getElementById("results").style.display = "none";
+function ResetQuiz() {
+    ClearParties();
+    results.style.display = "none";
     document.getElementById("question").style.display = "none";
     document.getElementById("backButton").style.display = "none";
     document.getElementById("startButton").style.display = "block";
     document.getElementById("logo").style.display = "block";
     question = 0;
     result = [];
+    while (otherParties.lastChild) {
+        otherParties.removeChild(otherParties.lastChild)
+    }
+    while (top3.lastChild) {
+        top3.removeChild(top3.lastChild)
+    }
 }
 function NextQuestion(string) {
-    partiesCreated = false;
     if (string == "agree") {
         result.push("pro");
     } else if (string == "neither") {
@@ -48,20 +55,16 @@ function NextQuestion(string) {
         ClearParties();
         LoadQuestion();
     } else {
+        ClearParties();
         GetResults();
     }
 }
-function PreviousQuestion()
-{
-    partiesCreated = false;
-    if(question < 1)
-    {
+function PreviousQuestion() {
+    if (question < 1) {
         ResetQuiz();
-    }else if(question >= subjects.length)
-    {
+    } else if (question >= subjects.length) {
         ResetQuiz();
-    }else
-    {
+    } else {
         result.pop();
         question = question - 1;
         ClearParties();
@@ -86,7 +89,7 @@ function LoadParties() {
             party.style.borderBottom = "thin solid #000000";
             var partyTitle = document.createElement('h3');
             partyTitle.innerHTML = parties[counter].name;
-            party.appendChild(partyTitle);            
+            party.appendChild(partyTitle);
 
             if (parties[counter].position == "pro") {
                 proParties.appendChild(party);
@@ -109,6 +112,7 @@ function LoadParties() {
     }
 }
 function ClearParties() {
+    partiesCreated = false;
     document.getElementById("partiesList").style.display = "none";
     while (proParties.lastChild) {
         proParties.removeChild(proParties.lastChild)
@@ -122,20 +126,17 @@ function ClearParties() {
 }
 function GetResults() {
     document.getElementById("question").style.display = "none";
-    var results = document.getElementById("results");
     results.style.display = "flex";
+
     var subjectsCounter = 0;
-    var partyObject = new Object();
     var counter = 0
+    var partyObject = new Object();
+
     for (i in subjects[subjectsCounter].parties) {
         var matchName = subjects[subjectsCounter].parties[counter].name + "Matched";
         matchName = matchName.replace(/ /g, "");
         matchName = matchName.replace("\"\"", "/");
         partyObject[matchName] = 0;
-        var partyMatches = document.createElement("label");
-        var varName = [matchName] + "Element";
-        partyMatches.id = [varName]
-        results.appendChild(partyMatches);
         counter++;
     }
     for (i in subjects) {
@@ -147,15 +148,40 @@ function GetResults() {
             matchName = matchName.replace(/ /g, "");
             matchName = matchName.replace("\"\"", "/");
 
+            //if party opinion equals user opinion
             if (position == result[subjectsCounter]) {
                 partyObject[matchName] = partyObject[matchName] + 1;
-                var partyElement = document.getElementById([matchName] + "Element");
-                partyElement.innerHTML = party.name + " = " + partyObject[matchName];
             } else {
-
             }
             partiesCounter++;
         }
         subjectsCounter++;
+    }
+
+    var array = [];
+    for (i in partyObject) {
+        array.push([partyObject[i], i]);
+    }
+    array.sort();
+    array.reverse();
+    arrayCounter = 0;
+    for (i in array) {
+        var partyName = array[i][1];
+        partyName = partyName.replace("Matched", "");
+        var value = array[i];
+        var percentage = Math.round(array[i][0] / subjects.length * 100) + "%";
+        value = value.toString();
+        value = value.replace(array[i][0] + "," + array[i][1], "<h3>" + partyName + ": </h3><br>" + percentage);
+        var partyMatches = document.createElement("label");
+        partyMatches.id = [i][0] + "Element";
+        partyMatches.innerHTML = value;
+        if(arrayCounter >= 3)
+        {
+            otherParties.appendChild(partyMatches);
+        }else
+        {
+            top3.appendChild(partyMatches);
+        }
+        arrayCounter++;
     }
 }
