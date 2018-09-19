@@ -8,11 +8,11 @@ var results = document.getElementById("results");
 var top3 = document.getElementById("top3");
 var otherParties = document.getElementById("otherParties");
 
-document.getElementById("startButton").onclick = function () { StartQuiz() };
+document.getElementById("startButton").onclick = function () { StartQuiz() };``
 document.getElementById("partiesButton").onclick = function () { LoadParties() };
-document.getElementById("agree").onclick = function () { NextQuestion("agree") };
-document.getElementById("neither").onclick = function () { NextQuestion("neither") };
-document.getElementById("disagree").onclick = function () { NextQuestion("disagree") };
+document.getElementById("agree").onclick = function () { NextQuestion("pro") };
+document.getElementById("neither").onclick = function () { NextQuestion("ambivalent") };
+document.getElementById("disagree").onclick = function () { NextQuestion("contra") };
 document.getElementById("skip").onclick = function () { NextQuestion("skip") };
 document.getElementById("backButton").onclick = function () { PreviousQuestion() };
 
@@ -33,29 +33,16 @@ function ResetQuiz() {
     document.getElementById("logo").style.display = "block";
     question = 0;
     result = [];
-    while (otherParties.lastChild) {
-        otherParties.removeChild(otherParties.lastChild)
-    }
-    while (top3.lastChild) {
-        top3.removeChild(top3.lastChild)
-    }
+    otherParties.innerHTML = "";
+    top3.innerHTML = "";
 }
 function NextQuestion(string) {
-    if (string == "agree") {
-        result.push("pro");
-    } else if (string == "neither") {
-        result.push("ambivalent");
-    } else if (string == "disagree") {
-        result.push("contra");
-    } else if (string == "skip") {
-        result.push("skip");
-    }
+    result.push(string);
     question++;
+    ClearParties();
     if (question < subjects.length) {
-        ClearParties();
         LoadQuestion();
     } else {
-        ClearParties();
         GetResults();
     }
 }
@@ -79,8 +66,8 @@ function LoadParties() {
     if (document.getElementById("partiesList").style.display == "none" && partiesCreated == false) {
         var parties = subjects[question].parties;
         var counter = 0;
+        document.getElementById("partiesList").style.display = "flex";
         for (i in parties) {
-            document.getElementById("partiesList").style.display = "flex";
             var partyId = (parties[counter].name);
             partyId = partyId.replace(/ /g, "");
             partyId = partyId.replace("\"\"", "/");
@@ -129,7 +116,7 @@ function GetResults() {
     results.style.display = "flex";
 
     var subjectsCounter = 0;
-    var counter = 0
+    var counter = 0;
     var partyObject = new Object();
 
     for (i in subjects[subjectsCounter].parties) {
@@ -150,7 +137,7 @@ function GetResults() {
 
             //if party opinion equals user opinion
             if (position == result[subjectsCounter]) {
-                partyObject[matchName] = partyObject[matchName] + 1;
+                partyObject[matchName]++;
             } else {
             }
             partiesCounter++;

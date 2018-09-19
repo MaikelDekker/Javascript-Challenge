@@ -150,6 +150,10 @@ body
 {
     display: block;
 }
+#parties h3
+{
+    font-size: 20px;
+}
 .positionTitle
 {
     font-size: 20px;
